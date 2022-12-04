@@ -1,5 +1,6 @@
 package guru.springframework.spring5webfluxrest.controllers;
 
+import guru.springframework.spring5webfluxrest.domain.Category;
 import guru.springframework.spring5webfluxrest.domain.Vendor;
 import guru.springframework.spring5webfluxrest.repositories.VendorRepository;
 import org.reactivestreams.Publisher;
@@ -31,5 +32,11 @@ public class VendorController {
     @PostMapping("/api/v1/vendors")
     Mono<Void> create(@RequestBody Publisher<Vendor> vendorStream) {
         return vendorRepository.saveAll(vendorStream).then();
+    }
+
+    @PutMapping("/api/v1/vendors/{id}")
+    Mono<Vendor> update(@PathVariable String id, @RequestBody Vendor vendor) {
+        vendor.setId(id);
+        return vendorRepository.save(vendor);
     }
 }
